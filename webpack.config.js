@@ -3,8 +3,11 @@ const path = require('path');
 const webpack = require('webpack');
 const childProcess = require('child_process');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
         main: path.resolve('./src/app.js')
     },
@@ -46,6 +49,10 @@ module.exports = {
                 Committer name : ${childProcess.execSync('git config user.name')}
                 Commit Date : ${new Date().toLocaleString()}
             `
+        }),
+        new webpack.DefinePlugin({
+            dev: JSON.stringify(process.env.DEV_API),
+            pro: JSON.stringify(process.env.PRO_API)
         })
     ]
 }
